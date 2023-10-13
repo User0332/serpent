@@ -1,0 +1,26 @@
+[build-system]
+requires = [
+    "setuptools",
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "stempl-flask"
+authors = [
+    { name = "Carl Furtado", email = "carlzfurtado@gmail.com" },
+]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+]
+dependencies = [
+    "flask",
+    "flask",
+]
+version = "1.0.0"
+description = "A Flask project template for serpent-cli"
+
+[project.license]
+file = "LICENSE"
+
+[project.urls]
+Home = "https://github.com/User0332/serpent/templatespack/flask"

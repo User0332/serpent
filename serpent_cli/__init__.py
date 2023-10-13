@@ -82,7 +82,6 @@ def newproj(template: str):
 	if f"pkg:{template}" in templates:
 		try:
 			templlib = importlib.import_module(f"stemplate_{template}")
-			templlib.serpent_create()
 		except BaseException:
 			print("Error: could not import or run the template library")
 			exit(1)
@@ -92,7 +91,6 @@ def newproj(template: str):
 	if f"lcl:{template}" in templates:
 		try:
 			templlib = importlib.import_module(template)
-			templlib.serpent_create()
 		except BaseException:
 			print("Error: could not import or run the template library")
 			exit(1)
@@ -122,7 +120,7 @@ def runproj():
 
 	if f"pkg:{template}" in templates:
 		try:
-			templlib = importlib.import_module(f"stemplate_{template}")
+			templlib = importlib.import_module(f"stempl_{template}")
 			templlib.serpent_run("venv/Scripts/python")
 		except BaseException:
 			print("Error: could not import or run the template library")
@@ -254,7 +252,7 @@ def installtemplate(names: list[str]): # TODO: add checking to see if template a
 
 				print(f"lcl:{otherprojname} successfully ")
 			else:
-				if subprocess.call([PYTHON, "-m", "pip", "install", f"stemplate-{name}"]) != 0: raise OSError("Pip failed install")
+				if subprocess.call([PYTHON, "-m", "pip", "install", f"stempl-{name}"]) != 0: raise OSError("Pip failed install")
 
 				templadd = f"pkg:{name}"
 
@@ -275,7 +273,7 @@ def removetemplate(names: list[str]):
 	for name in names:
 		if f"pkg:{name}" in templates:
 			templates.remove(f"pkg:{name}")
-			if subprocess.call([PYTHON, "-m", "pip", "uninstall", f"stemplate-{name}"]) != 0: raise OSError("Pip failed uninstall")
+			if subprocess.call([PYTHON, "-m", "pip", "uninstall", f"stempl-{name}"]) != 0: raise OSError("Pip failed uninstall")
 			print(f"Template pkg:{name} successfully removed.")
 			continue
 

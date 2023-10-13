@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "stempl-webpy"
+authors = [{name = "Carl Furtado", email = "carlzfurtado@gmail.com"}]
+license = {file = "LICENSE"}
+classifiers = ["License :: OSI Approved :: MIT License"]
+dependencies = ["webpy-framework"]
+version = "1.0.0"
+description = "A WebPy-Framework project template for serpent-cli"
+
+[project.urls]
+Home = "https://github.com/User0332/serpent/templatespack/webpy"
