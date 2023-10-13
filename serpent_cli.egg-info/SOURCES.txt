@@ -1,0 +1,11 @@
+LICENSE
+MANIFEST.in
+pyproject.toml
+serpent_cli/__init__.py
+serpent_cli/__main__.py
+serpent_cli.egg-info/PKG-INFO
+serpent_cli.egg-info/SOURCES.txt
+serpent_cli.egg-info/dependency_links.txt
+serpent_cli.egg-info/entry_points.txt
+serpent_cli.egg-info/requires.txt
+serpent_cli.egg-info/top_level.txt
