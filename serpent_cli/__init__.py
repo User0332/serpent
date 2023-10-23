@@ -13,7 +13,7 @@ PYTHON = sys.executable
 TEMPLATES_FILE = f"{os.path.dirname(__file__)}/templates.lst"
 SLASH = '\\' if os.name == "nt" else '/'
 
-def make_toml():
+def make_toml(template: bool=False):
 	subprocess.call([PYTHON, "-m", "flit", "init"])
 
 	# TODO: change build system to setuptools -- OR -- maybe keep as flit? -> for ease of use
@@ -21,6 +21,7 @@ def make_toml():
 	proj = tomli.load(open("pyproject.toml", "rb"))
 	proj["project"]["dependencies"] = []
 	proj["project"]["description"] = ""
+	if template: proj["project"]["name"] = f"stempl-{proj['project']['name']}"
 	del proj["project"]["dynamic"]
 
 	proj["project"]["version"] = "1.0.0"
@@ -61,7 +62,9 @@ def newproj(template: str, dev_feature: str):
 	make_venv()
 
 	make_serpent_conf(template, dev_feature)
-	make_toml()
+
+	if template == "template": make_toml(template=True)
+	else: make_toml()
 
 	if dev_feature == "globalcode":
 		os.mkdir("generated")
@@ -86,7 +89,7 @@ def newproj(template: str, dev_feature: str):
 		return
 	if template == "template":
 		os.mkdir(projname)
-		open(f"{projname}/__init__.py", 'w').write("def serpent_create(): pass\n\ndef serpent_run(python: str): pass")
+		open(f"stempl_{projname}/__init__.py", 'w').write("def serpent_create(): pass\n\ndef serpent_run(python: str): pass")
 
 		print(f"Template project {projname} created.")
 		return

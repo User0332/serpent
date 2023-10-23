@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Templates &mdash; serpent latest documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Dependency Management" href="deps.html" />
+    <link rel="prev" title="Projects" href="projects.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            serpent
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Usage:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="projects.html">Projects</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Templates</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#builtin-templates">Builtin Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-templates">Installing Templates</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#local-templates">Local Templates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pypi-templates">PyPI Templates</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#creating-templates">Creating Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#listing-templates">Listing Templates</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="deps.html">Dependency Management</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">serpent</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Templates</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/templates.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="templates">
+<h1>Templates<a class="headerlink" href="#templates" title="Permalink to this heading"></a></h1>
+<section id="builtin-templates">
+<h2>Builtin Templates<a class="headerlink" href="#builtin-templates" title="Permalink to this heading"></a></h2>
+<p>Serpent has three built-in templates - <code class="docutils literal notranslate"><span class="pre">console</span></code> (simple console application), <code class="docutils literal notranslate"><span class="pre">lib</span></code> (Python package template), and <code class="docutils literal notranslate"><span class="pre">template</span></code> (Serpent template project).</p>
+</section>
+<section id="installing-templates">
+<h2>Installing Templates<a class="headerlink" href="#installing-templates" title="Permalink to this heading"></a></h2>
+<p>Templates can be installed using the <code class="docutils literal notranslate"><span class="pre">serpent</span> <span class="pre">template</span> <span class="pre">install</span> <span class="pre">&lt;templatename&gt;</span></code> command.</p>
+<section id="local-templates">
+<h3>Local Templates<a class="headerlink" href="#local-templates" title="Permalink to this heading"></a></h3>
+<p>If <code class="docutils literal notranslate"><span class="pre">templatename</span></code> points to a valid location on disk, then the template will be installed from the Python package specified at that location.</p>
+</section>
+<section id="pypi-templates">
+<h3>PyPI Templates<a class="headerlink" href="#pypi-templates" title="Permalink to this heading"></a></h3>
+<p>If <code class="docutils literal notranslate"><span class="pre">templatename</span></code> does not exist on disk, then Serpent will try to install the PyPI package <code class="docutils literal notranslate"><span class="pre">stempl-&lt;templatename&gt;</span></code>, and if it exists, will use that library as the template package. All templates published to PyPI must be prefixed with <code class="docutils literal notranslate"><span class="pre">stempl-</span></code> to be used with Serpent.</p>
+</section>
+</section>
+<section id="creating-templates">
+<h2>Creating Templates<a class="headerlink" href="#creating-templates" title="Permalink to this heading"></a></h2>
+<p>To create a template, just create a new template project with Serpent. The <code class="docutils literal notranslate"><span class="pre">serpent_create</span></code> function, will be called by Serpent when creating a new project with that template, so all code needed to generate the template’s files should go there. The <code class="docutils literal notranslate"><span class="pre">serpent_run</span></code> function takes one argument, which si the path to the venv interpreter. This function should contain necessary code for running projects created with its template. For example, the <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> of the sample template module <code class="docutils literal notranslate"><span class="pre">stempl-mytemplate</span></code> could look something like this:</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">subprocess</span>
+
+<span class="k">def</span> <span class="nf">serpent_create</span><span class="p">():</span>
+	<span class="nb">open</span><span class="p">(</span><span class="s2">&quot;test.py&quot;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;print(&#39;mytemplate base program&#39;)&quot;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">serpent_run</span><span class="p">(</span><span class="n">python</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+	<span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="n">python</span><span class="p">,</span> <span class="s2">&quot;test.py&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>You can also import the <code class="docutils literal notranslate"><span class="pre">serpent_cli</span></code> library to use during template running and creation. A use case for this is illustrated below, where an additional dependency is needed for the project.</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">serpent_cli</span> <span class="kn">import</span> <span class="n">deps</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+
+<span class="k">def</span> <span class="nf">serpent_create</span><span class="p">():</span>
+	<span class="n">deps</span><span class="o">.</span><span class="n">add</span><span class="p">([</span><span class="s2">&quot;some-package&quot;</span><span class="p">])</span>
+	<span class="nb">open</span><span class="p">(</span><span class="s2">&quot;test.py&quot;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;print(&#39;mytemplate base program&#39;)&quot;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">serpent_run</span><span class="p">(</span><span class="n">python</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+	<span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="n">python</span><span class="p">,</span> <span class="s2">&quot;test.py&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</section>
+<section id="listing-templates">
+<h2>Listing Templates<a class="headerlink" href="#listing-templates" title="Permalink to this heading"></a></h2>
+<p>You can see all installed templates using the <code class="docutils literal notranslate"><span class="pre">serpent</span> <span class="pre">template</span> <span class="pre">list</span></code> command. The output is formatted as shown below:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>template_name &lt;template_type&gt;
+</pre></div>
+</div>
+<p>For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ serpent templ list <span class="c1"># templ is a short form for the template verb</span>
+
+List of project templates:
+  console &lt;builtin&gt;
+  lib &lt;builtin&gt;
+  template &lt;builtin&gt;
+  mytemplate &lt;local&gt;
+  webpy &lt;installed&gt;
+  flask &lt;installed&gt;
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="projects.html" class="btn btn-neutral float-left" title="Projects" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="deps.html" class="btn btn-neutral float-right" title="Dependency Management" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Carl Furtado.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

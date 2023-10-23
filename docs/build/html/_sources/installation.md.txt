@@ -1,0 +1,3 @@
+# Installation
+
+Serpent is available as a pip package (serpent-cli), so you can install it using pip: `pip install serpent-cli`. If you want the most up-to-date version (unstable builds) you can install it straight from the repository: `pip install git+https://github.com/User0332/serpent` (not recommended). Once installed, make sure that a help message shows up when you run `serpent -h`. If the command does not work, then you may need to reinstall or check your installation and any pip warnings. Once you're done, you can head over to [Projects](projects.md) to learn the basics of the tool.
