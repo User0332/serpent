@@ -8,15 +8,12 @@ authors = [{name = "Carl Furtado", email = "carlzfurtado@gmail.com"}]
 license = {file = "LICENSE"}
 classifiers = ["License :: OSI Approved :: MIT License"]
 dependencies = ["virtualenv", "flit", "tomli", "tomli_w"]
-version = "0.0.1"
+version = "0.0.2"
 description = "A CLI-based Python project template tool"
 readme = "README.md"
 
 [project.urls]
 Home = "https://github.com/User0332/serpent"
-
-[project.optional-dependencies]
-templatespack = ["stempl-webpy", "stempl-flask"]
 
 [project.scripts]
 serpent = "serpent_cli:main"

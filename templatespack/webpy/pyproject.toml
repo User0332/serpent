@@ -8,7 +8,7 @@ authors = [{name = "Carl Furtado", email = "carlzfurtado@gmail.com"}]
 license = {file = "LICENSE"}
 classifiers = ["License :: OSI Approved :: MIT License"]
 dependencies = ["webpy-framework"]
-version = "1.0.0"
+version = "1.0.2"
 description = "A WebPy-Framework project template for serpent-cli"
 
 [project.urls]

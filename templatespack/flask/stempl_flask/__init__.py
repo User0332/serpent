@@ -22,26 +22,26 @@ def serpent_create():
 
 	base_html = """<!DOCTYPE html>
 
-	<html>
-		<head>
-			<script src="../static/js/index.js" defer></script>
-			<link rel="stylesheet" href="../static/css/index.css"></link>
-			<title>{{site_title}}</title>
-		</head>
+<html>
+	<head>
+		<script src="../static/js/index.js" defer></script>
+		<link rel="stylesheet" href="../static/css/index.css"></link>
+		<title>{{site_title}}</title>
+	</head>
 
-		<body>
+	<body>
 
-		</body>
-	</html>
+	</body>
+</html>
 	"""
 
 	base_py = """from flask import Flask, render_template
 
-	app = Flask(__name__)
+app = Flask(__name__)
 
-	@app.route('/')
-	def index():
-		return render_template("index.html")
+@app.route('/')
+def index():
+	return render_template("index.html")
 	"""
 
 	os.mkdir("templates")
@@ -59,7 +59,7 @@ def serpent_create():
 
 	open("app.py", 'w').write(base_py)
 
-	serpent_cli.adddep(["flasks"])
+	serpent_cli.deps.add(["flask"])
 
 def serpent_run(python: str):
 	subprocess.call(

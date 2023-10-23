@@ -1,6 +1,7 @@
 import os
 import sys
 import json
+import shutil
 import tomli
 import tomli_w
 import subprocess
@@ -10,6 +11,7 @@ from argparse import ArgumentParser
 
 PYTHON = sys.executable
 TEMPLATES_FILE = f"{os.path.dirname(__file__)}/templates.lst"
+SLASH = '\\' if os.name == "nt" else '/'
 
 def make_toml():
 	subprocess.call([PYTHON, "-m", "flit", "init"])
@@ -28,16 +30,17 @@ def make_toml():
 def make_venv():
 	subprocess.call([PYTHON, "-m", "venv", "venv"])
 
-def make_serpent_conf(template: str):
+def make_serpent_conf(template: str, dev_feature: str):
 	json.dump(
 		{
 			"type": template,
-			"diskdeps": []
+			"diskdeps": [],
+			"devfeature": dev_feature
 		},
 		open("serpent.conf", 'w')
 	)
 
-def newproj(template: str):
+def newproj(template: str, dev_feature: str):
 	projname = os.path.basename(os.getcwd())
 	
 	if os.path.isfile(f"serpent.conf"):
@@ -46,12 +49,24 @@ def newproj(template: str):
 	if os.listdir():
 		print(f"Error: Cannot create new project: files already exist in the current directory; creating a new project may overwrite them")
 		exit(1)
+
+	with open(TEMPLATES_FILE, 'r') as f:
+		templates = f.read().splitlines()
+
+	if (template not in ("console", "lib", "template")) and (f"pkg:{template}" not in templates) and (f"lcl:{template}" not in templates):
+		print(f"Error: the template '{template}' could not be found. Please make sure it is properly installed and shows up when `serpent template list` is run.")
+		exit(1)
 	
 	print("Creating venv...")
 	make_venv()
 
-	make_serpent_conf(template)
+	make_serpent_conf(template, dev_feature)
 	make_toml()
+
+	if dev_feature == "globalcode":
+		os.mkdir("generated")
+		os.mkdir("generated/run")
+		open("generated/global_code.py", 'w').write("# Add global code here")
 
 	if template == "console": # console, lib, and template are builtin templates
 		open("main.py", 'w').write('print("Hello, World!")')
@@ -76,12 +91,10 @@ def newproj(template: str):
 		print(f"Template project {projname} created.")
 		return
 
-	with open(TEMPLATES_FILE, 'r') as f:
-		templates = f.read().splitlines()
-
 	if f"pkg:{template}" in templates:
 		try:
-			templlib = importlib.import_module(f"stemplate_{template}")
+			templlib = importlib.import_module(f"stempl_{template}")
+			templlib.serpent_create()
 		except BaseException:
 			print("Error: could not import or run the template library")
 			exit(1)
@@ -91,14 +104,12 @@ def newproj(template: str):
 	if f"lcl:{template}" in templates:
 		try:
 			templlib = importlib.import_module(template)
+			templlib.serpent_create()
 		except BaseException:
 			print("Error: could not import or run the template library")
 			exit(1)
 
 		return
-	
-	print(f"Error: the template '{template}' could not be found. Please make sure it is properly installed and shows up when `serpent template list` is run.")
-	exit(1)
 
 def runproj():
 	if not os.path.isfile("serpent.conf"):
@@ -108,11 +119,39 @@ def runproj():
 	conf = json.load(open("serpent.conf", 'r'))
 
 	template = conf["type"]
+	dev_feature = conf["devfeature"]
+
+	if dev_feature == "globalcode":
+		with open("generated/global_code.py", 'r') as f:
+			glbl_code = f.read()
+
+		shutil.rmtree("generated/run")
+
+		os.mkdir("generated/run")
+
+		for dirpath, dirnames, files in os.walk('.'):
+			if dirpath.startswith((f".{SLASH}generated", f".{SLASH}venv")): continue
+			
+			reldir = os.path.join("generated/run", os.path.relpath(dirpath))
+			for dirname in dirnames:
+				if dirname in ("venv",) or dirname.startswith("generated"): continue
+				os.mkdir(os.path.join(reldir, dirname))
+
+			for file in files:
+				if not file.endswith(".py"): continue
+
+				with open(os.path.join(dirpath, file), 'r') as f:
+					# todo: change glbl code import searching to better regex for non-uniform whitespace
+					code = f'{glbl_code}\n{f.read().replace("from generated.global_code import *", "")}'
+				
+				with open(os.path.join(reldir, file), 'w') as f:
+					f.write(code)
 
 	if template == "console":
-		exit(subprocess.call(["venv/Scripts/python", "main.py"])) # TODO: Add args passed to serpent run [args ...]
+		script = "generated/run/main.py" if dev_feature == "globalcode" else "main.py"
+		exit(subprocess.call(["venv/Scripts/python", script])) # TODO: Add args passed to serpent run [args ...]
 	if template in ("lib", "template"):
-		print("Library and template projects cannot be run!")
+		print("Files built in generated/run, unable to run library and template projects.")
 		exit(1)
 
 	with open(TEMPLATES_FILE, 'r') as f:
@@ -239,6 +278,8 @@ def listdeps(_):
 	print("Project References:\n  "+"\n  ".join(diskdeps))
 
 def installtemplate(names: list[str]): # TODO: add checking to see if template already exists
+	templates = open(TEMPLATES_FILE, 'r').read().splitlines()
+
 	try:
 		for name in names:
 			if os.path.exists(name):
@@ -256,8 +297,9 @@ def installtemplate(names: list[str]): # TODO: add checking to see if template a
 
 				templadd = f"pkg:{name}"
 
-			with open(TEMPLATES_FILE, 'a') as f:
-				f.write(templadd)
+			if templadd not in templates:
+				with open(TEMPLATES_FILE, 'a') as f:
+					f.write(f"{templadd}\n")
 
 			print(f"Template {templadd} successfully installed.")
 	except OSError as e:
@@ -301,20 +343,21 @@ def listtemplates(_):
 		)
 	)
 
-	print("List of templates:\n  "+"\n  ".join(templates))
+	print("List of project templates:\n  "+"\n  ".join(templates))
 
 def main():
 	parser = ArgumentParser("serpent", description="The Serpent tool CLI")
 	parser.set_defaults(cmd=None)
 
 	subparsers = parser.add_subparsers()
-	newparser = subparsers.add_parser("new", help="create a new serpent project from a template")
+	newparser = subparsers.add_parser("new", aliases=("create",), help="create a new serpent project from a template")
 	newparser.set_defaults(cmd="new")
+	newparser.add_argument("--development-feature", type=str, default=None)
 
 	runparser = subparsers.add_parser("run", help="run the serpent project located in the current directory")
 	runparser.set_defaults(cmd="run")
 
-	depsparser = subparsers.add_parser("deps", aliases=("dep"), help="utility commands to help manage dependencies")
+	depsparser = subparsers.add_parser("deps", aliases=("dep", "dependency", "dependencies"), help="utility commands to help manage dependencies")
 	depsparser.set_defaults(cmd="deps")
 	
 	depssub = depsparser.add_subparsers()
@@ -334,7 +377,7 @@ def main():
 	depslist = depssub.add_parser("list")
 	depslist.set_defaults(cmd="deps/list", names=None)
 
-	templparser = subparsers.add_parser("template", aliases=("templates",), help="commands for adding & managing templates")
+	templparser = subparsers.add_parser("template", aliases=("templates","templ"), help="commands for adding & managing templates")
 	templparser.set_defaults(cmd="template")
 	
 	templsubs = templparser.add_subparsers()
@@ -371,7 +414,7 @@ def main():
 		return
 	
 	if args.cmd == "new":
-		newproj(args.name)
+		newproj(args.name, args.development_feature)
 		return
 
 	actions: dict[str, Callable[[list[str]], None]] = {
@@ -385,3 +428,16 @@ def main():
 	}
 
 	actions[args.cmd](args.names)
+
+# for API
+
+class deps:
+	add = adddep
+	upgrade = depsupgr
+	remove = remdep
+	list = listdeps
+
+class templates:
+	install = installtemplate
+	remove = removetemplate
+	list = listtemplates
